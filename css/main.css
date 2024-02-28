@@ -1,0 +1,80 @@
+body {
+    background-color: #222;
+    color: whitesmoke;
+    text-align: center;
+    direction: rtl;
+    max-width: 600px;
+    margin: auto;
+    overflow: hidden;
+}
+button {
+    cursor: pointer;
+}
+
+.game-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap-reverse;
+}
+
+.game-container > button {
+    background-color: #555;
+    border: 20px solid #222;
+    padding: .8em;
+    font-size: 2em;
+    border-radius: 50%;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.game-container.user-turn > button {
+    cursor: pointer;
+    pointer-events: unset;
+}
+
+.game-container > button:nth-child(1) {
+    background-color: green;
+}
+.game-container > button:nth-child(2) {
+    background-color: red;
+}
+.game-container > button:nth-child(3) {
+    background-color: lightskyblue;
+}
+.game-container > button:nth-child(4) {
+    background-color: yellow;
+}
+
+.game-container > button.pressed {
+    border: 20px solid rgba(32, 33, 23, 0.5);
+}
+
+.user-msg {
+    opacity: 0;
+    padding: 5px;
+    transition: .5s;
+}
+.user-msg.show {
+    opacity: 1;
+    background-color: black;
+}
+
+.modal {
+    position: absolute;
+    top:10px;
+    opacity: 0;
+    padding: 5px;
+    transition: .5s;
+}
+.modal.show {
+    opacity: 1;
+    background-color: black;
+}
+
+.broken {
+    display: none;
+    height: 100vh;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 25%
+}
