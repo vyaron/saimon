@@ -1,10 +1,12 @@
+'use strict'
 
-var gIsUserTurn
-var gUserScore
 var gTopScore = +localStorage.getItem('topScore') || 0
+var gGameScore
 var gNoteSeq
-var gCurrUserIdx
+var gIsUserTurn
+var gUserCurrNoteIdx
 
+const gAudioLength = 1200
 const gAudioRight = new Audio('sound/right3.mp3')
 const gAudioWrong = new Audio('sound/wrong.mp3')
 const gAudioWin = new Audio('sound/win.mp3')
@@ -23,47 +25,50 @@ gAudioBreak.volume = 0.05
 gAudioRight.volume = 0.05
 
 
-function onInit() {
-    gUserScore = 0
+function onStart() {
+    gGameScore = 0
     gIsUserTurn = false
-    document.querySelector('.score').innerText = gUserScore
+    document.querySelector('.score').innerText = gGameScore
     document.querySelector('.top-score').innerText = gTopScore
 
     document.querySelector('.modal').classList.remove('show')
-    gNoteSeq = '' + getRandomIntInclusive(1, 4)
+    gNoteSeq = ''
     playComputer()
 }
 
 
 function playComputer() {
+    
     flashMsg('נא להקשיב...')
+    gNoteSeq += getRandomIntInclusive(1, 4)
 
-    document.querySelector(`.game-container`).classList.remove('user-turn')
     gIsUserTurn = false
+    document.querySelector(`.game-container`).classList.remove('user-turn')
     for (let i = 0; i < gNoteSeq.length; i++) {
         setTimeout(() => {
-            const played = gNoteSeq.charAt(i)
-            const el = document.querySelector(`.game-container > button:nth-child(${played})`)
-            onPress(el, played)
-        }, i * 1200)
+            const note = gNoteSeq.charAt(i)
+            const el = document.querySelector(`.game-container > button:nth-child(${note})`)
+            playNote(el, note)
+        }, i * gAudioLength)
     }
 
     setTimeout(() => {
         setUserTurn()
-    }, gNoteSeq.length * 1000)
+    }, gNoteSeq.length * gAudioLength)
 }
 
 function setUserTurn() {
-    gIsUserTurn = true
     document.querySelector(`.game-container`).classList.add('user-turn')
-    gCurrUserIdx = 0
+    gIsUserTurn = true
+    gUserCurrNoteIdx = 0
     flashMsg('תורך')
-
 }
 
 function onUserPress(elBtn) {
     if (!gIsUserTurn) return
-    const note = gNoteSeq[gCurrUserIdx]
+    const note = gNoteSeq[gUserCurrNoteIdx]
+
+    // user lost:
     if (elBtn.innerText !== note) {
         document.querySelector(`.game-container`).classList.remove('user-turn')
         flashMsg('אופסי...')
@@ -73,31 +78,37 @@ function onUserPress(elBtn) {
         }, 3000)
         return
     }
-    onPress(elBtn, note)
-    if (gCurrUserIdx === gNoteSeq.length - 1) {
+
+    // user got it right
+    playNote(elBtn, note)
+
+    // is it the last note in the sequence?
+    if (gUserCurrNoteIdx === gNoteSeq.length - 1) {
 
         setTimeout(()=>{
             flashMsg('יפה!')
-            gUserScore++
-            document.querySelector('.score').innerText = gUserScore
-            if (gUserScore > gTopScore) {
-                document.querySelector('.top-score').innerText = gUserScore
-                localStorage.setItem('topScore', gUserScore)
+            gGameScore++
+            document.querySelector('.score').innerText = gGameScore
+            if (gGameScore > gTopScore) {
+                document.querySelector('.top-score').innerText = gGameScore
+                localStorage.setItem('topScore', gGameScore)
+                gAudioCheer.play()
+            } else {
+                gAudioRight.play()
             }
-            gAudioRight.play()
-        }, 1200)
 
-        setTimeout(() => {
-            gNoteSeq += getRandomIntInclusive(1, 4)
-            playComputer()
-        }, 2500)
+            setTimeout(() => {
+                playComputer()
+            }, gAudioLength)
+
+        }, gAudioLength)
 
     } else {
-        gCurrUserIdx++
+        gUserCurrNoteIdx++
     }
 }
 
-function onPress(elBtn, note) {
+function playNote(elBtn, note) {
     gAudioNotes[note-1].play()
     elBtn.classList.add('pressed')
     setTimeout(() => {
