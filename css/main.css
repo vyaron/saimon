@@ -54,6 +54,15 @@ button {
     border: 20px solid rgba(32, 33, 23, 0.5);
 }
 
+.broken {
+    display: none;
+    width: 100%;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 25%
+}
+
 .user-msg {
     opacity: 0;
     padding: .6em;
@@ -80,7 +89,6 @@ button {
     justify-content: space-around;
     display: none;
     margin: 0;
-
 }
 
 .modal img {
@@ -94,16 +102,6 @@ button {
     background-color: black;
     display: flex;
 }
-
-.broken {
-    display: none;
-    width: 100%;
-    margin: auto;
-    position: absolute;
-    top: 0;
-    left: 25%
-}
-
 
 .modal button {
     margin-top: 1em;
