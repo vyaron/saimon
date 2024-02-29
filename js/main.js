@@ -24,13 +24,17 @@ const gAudioNotes = [
 gAudioBreak.volume = 0.05
 gAudioRight.volume = 0.05
 
+function onInit() {
+    document.querySelector('.modal img').src = `img/go${getRandomIntInclusive(1, 6)}.gif`
+}
+
 
 function onStart() {
     gGameScore = 0
     gIsUserTurn = false
     document.querySelector('.score').innerText = gGameScore
     document.querySelector('.top-score').innerText = gTopScore
-
+    document.querySelector('.modal img').src = `img/go${getRandomIntInclusive(1, 6)}.gif`
     document.querySelector('.modal').classList.remove('show')
     gNoteSeq = ''
     playComputer()
@@ -49,7 +53,7 @@ function playComputer() {
             const note = gNoteSeq.charAt(i)
             const el = document.querySelector(`.game-container > button:nth-child(${note})`)
             playNote(el, note)
-        }, i * gAudioLength)
+        }, (i+1) * gAudioLength)
     }
 
     setTimeout(() => {
@@ -89,7 +93,7 @@ function onUserPress(elBtn) {
             flashMsg('יפה!')
             gGameScore++
             document.querySelector('.score').innerText = gGameScore
-            if (gGameScore > gTopScore) {
+            if (gGameScore > gTopScore && gGameScore > 4) {
                 document.querySelector('.top-score').innerText = gGameScore
                 localStorage.setItem('topScore', gGameScore)
                 gAudioCheer.play()
@@ -99,7 +103,7 @@ function onUserPress(elBtn) {
 
             setTimeout(() => {
                 playComputer()
-            }, gAudioLength)
+            }, gAudioLength * 2)
 
         }, gAudioLength)
 
@@ -109,7 +113,10 @@ function onUserPress(elBtn) {
 }
 
 function playNote(elBtn, note) {
-    gAudioNotes[note-1].play()
+    const audioNote = gAudioNotes[note-1]
+    audioNote.pause()
+    audioNote.currentTime = 0
+    audioNote.play()
     elBtn.classList.add('pressed')
     setTimeout(() => {
         elBtn.classList.remove('pressed')
