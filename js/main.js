@@ -93,8 +93,9 @@ function onUserPress(elBtn) {
             gGameScore++
             document.querySelector('.score').innerText = gGameScore
             if (gGameScore > gTopScore && gGameScore > 4) {
-                document.querySelector('.top-score').innerText = gGameScore
-                localStorage.setItem('topScore', gGameScore)
+                gTopScore = gGameScore
+                document.querySelector('.top-score').innerText = gTopScore
+                localStorage.setItem('topScore', gTopScore)
                 gAudioCheer.play()
                 flashMsg(getCheer())
             } else {
