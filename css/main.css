@@ -12,6 +12,13 @@ h1 {
     font-size: 1.5em;
 }
 
+h2, h3 {
+    color: gray;
+}
+h2 span, h3 span {
+    color: whitesmoke;
+}
+
 button {
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
@@ -71,6 +78,7 @@ button {
     opacity: 0;
     padding: .6em;
     transition: .5s;
+    margin: 1em 0;
 }
 
 .user-msg.show {

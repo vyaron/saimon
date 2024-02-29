@@ -7,12 +7,10 @@ var gIsUserTurn
 var gUserCurrNoteIdx
 
 const gAudioLength = 1200
-const gAudioRight = new Audio('sound/right3.mp3')
+const gAudioRight = new Audio('sound/right.mp3')
 const gAudioWrong = new Audio('sound/wrong.mp3')
 const gAudioCheer = new Audio('sound/cheer.mp3')
 const gAudioBreak = new Audio('sound/broken.mp3')
-// const gAudioWin = new Audio('sound/win.mp3')
-// const gAudioExplode = new Audio('sound/explode.mp3')
 const gAudioNotes = [
     new Audio('sound/note/1.mp3'),
     new Audio('sound/note/2.mp3'),
@@ -23,7 +21,8 @@ const gAudioNotes = [
 // Don't scare that kid
 gAudioBreak.volume = 0.05
 gAudioRight.volume = 0.05
-gAudioCheer.volume = 0.05
+gAudioWrong.volume = 0.05
+gAudioCheer.volume = 0.1
 
 function onInit() {
     document.querySelector('.modal img').src = `img/go${getRandomIntInclusive(1, 6)}.gif`
@@ -75,9 +74,10 @@ function onUserPress(elBtn) {
     // user lost:
     if (elBtn.innerText !== note) {
         document.querySelector(`.game-container`).classList.remove('user-turn')
-        flashMsg('אופסי...')
+        flashMsg('אוּפְּסִי...')
         breakScreen()
         setTimeout(() => {
+            gAudioWrong.play()
             document.querySelector('.modal').classList.add('show')
         }, 3000)
         return
@@ -90,15 +90,16 @@ function onUserPress(elBtn) {
     if (gUserCurrNoteIdx === gNoteSeq.length - 1) {
 
         setTimeout(()=>{
-            flashMsg('יפה!')
             gGameScore++
             document.querySelector('.score').innerText = gGameScore
             if (gGameScore > gTopScore && gGameScore > 4) {
                 document.querySelector('.top-score').innerText = gGameScore
                 localStorage.setItem('topScore', gGameScore)
                 gAudioCheer.play()
+                flashMsg(getCheer())
             } else {
                 gAudioRight.play()
+                flashMsg(getCompliment())
             }
 
             setTimeout(() => {
@@ -141,8 +142,4 @@ function flashMsg(msg) {
     }, 1500)
 }
 
-function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min)
-    max = Math.floor(max)
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
+
