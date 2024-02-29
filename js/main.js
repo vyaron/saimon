@@ -9,10 +9,10 @@ var gUserCurrNoteIdx
 const gAudioLength = 1200
 const gAudioRight = new Audio('sound/right3.mp3')
 const gAudioWrong = new Audio('sound/wrong.mp3')
-const gAudioWin = new Audio('sound/win.mp3')
 const gAudioCheer = new Audio('sound/cheer.mp3')
 const gAudioBreak = new Audio('sound/broken.mp3')
-const gAudioExplode = new Audio('sound/explode.mp3')
+// const gAudioWin = new Audio('sound/win.mp3')
+// const gAudioExplode = new Audio('sound/explode.mp3')
 const gAudioNotes = [
     new Audio('sound/note/1.mp3'),
     new Audio('sound/note/2.mp3'),
@@ -23,6 +23,7 @@ const gAudioNotes = [
 // Don't scare that kid
 gAudioBreak.volume = 0.05
 gAudioRight.volume = 0.05
+gAudioCheer.volume = 0.05
 
 function onInit() {
     document.querySelector('.modal img').src = `img/go${getRandomIntInclusive(1, 6)}.gif`
@@ -40,10 +41,9 @@ function onStart() {
     playComputer()
 }
 
-
 function playComputer() {
     
-    flashMsg('נא להקשיב...')
+    flashMsg('נָא לְהַקְשִׁיב...')
     gNoteSeq += getRandomIntInclusive(1, 4)
 
     gIsUserTurn = false
@@ -65,7 +65,7 @@ function setUserTurn() {
     document.querySelector(`.game-container`).classList.add('user-turn')
     gIsUserTurn = true
     gUserCurrNoteIdx = 0
-    flashMsg('תורך')
+    flashMsg('תּוֹרֵךְ')
 }
 
 function onUserPress(elBtn) {
