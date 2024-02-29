@@ -32,6 +32,7 @@ function onInit() {
 function onStart() {
     gGameScore = 0
     gIsUserTurn = false
+    document.querySelector(`.game-container`).classList.remove('user-turn')
     document.querySelector('.score').innerText = gGameScore
     document.querySelector('.top-score').innerText = gTopScore
     document.querySelector('.modal img').src = `img/go${getRandomIntInclusive(1, 6)}.gif`
@@ -41,12 +42,8 @@ function onStart() {
 }
 
 function playComputer() {
-    
     flashMsg('נָא לְהַקְשִׁיב...')
     gNoteSeq += getRandomIntInclusive(1, 4)
-
-    gIsUserTurn = false
-    document.querySelector(`.game-container`).classList.remove('user-turn')
     for (let i = 0; i < gNoteSeq.length; i++) {
         setTimeout(() => {
             const note = gNoteSeq.charAt(i)
@@ -88,6 +85,9 @@ function onUserPress(elBtn) {
 
     // is it the last note in the sequence?
     if (gUserCurrNoteIdx === gNoteSeq.length - 1) {
+        
+        gIsUserTurn = false
+        document.querySelector(`.game-container`).classList.remove('user-turn')
 
         setTimeout(()=>{
             gGameScore++

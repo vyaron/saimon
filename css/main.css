@@ -6,6 +6,7 @@ body {
     max-width: 600px;
     margin: auto;
     overflow: hidden;
+    user-select: none;
 }
 
 h1 {
