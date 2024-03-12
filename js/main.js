@@ -1,12 +1,5 @@
 'use strict'
 
-var gTopScore = +localStorage.getItem('topScore') || 0
-var gGameScore
-var gNoteSeq
-var gIsUserTurn
-var gUserCurrNoteIdx
-
-const gAudioLength = 1200
 const gAudioRight = new Audio('sound/right.mp3')
 const gAudioWrong = new Audio('sound/wrong.mp3')
 const gAudioCheer = new Audio('sound/cheer.mp3')
@@ -17,6 +10,7 @@ const gAudioNotes = [
     new Audio('sound/note/3.mp3'),
     new Audio('sound/note/4.mp3')
 ]
+const gAudioLength = 1200
 
 // Don't scare that kid
 gAudioBreak.volume = 0.05
@@ -24,10 +18,16 @@ gAudioRight.volume = 0.05
 gAudioWrong.volume = 0.05
 gAudioCheer.volume = 0.1
 
+// Game state:
+var gTopScore = +localStorage.getItem('topScore') || 0
+var gGameScore
+var gIsUserTurn
+var gNoteSeq // string of note numbers - example: '1214'
+var gUserCurrNoteIdx // index of note in gNoteSeq that user should click next
+
 function onInit() {
     document.querySelector('.modal img').src = `img/go${getRandomIntInclusive(1, 6)}.gif`
 }
-
 
 function onStart() {
     gGameScore = 0
@@ -92,6 +92,7 @@ function onUserPress(elBtn) {
         setTimeout(()=>{
             gGameScore++
             document.querySelector('.score').innerText = gGameScore
+            // user broke his record
             if (gGameScore > gTopScore && gGameScore > 4) {
                 gTopScore = gGameScore
                 document.querySelector('.top-score').innerText = gTopScore
