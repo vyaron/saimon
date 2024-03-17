@@ -41,9 +41,6 @@ button {
     width: 180px;
     height: 180px;
     border-radius: 50%;
-}
-
-.game-container>button {
     cursor: pointer;
 }
 

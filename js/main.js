@@ -48,7 +48,7 @@ function playComputer() {
             const note = gNoteSeq.charAt(i)
             const el = document.querySelector(`.game-container > button:nth-child(${note})`)
             playNote(el, note)
-        }, (i+1) * gAudioLength)
+        }, (i + 1) * gAudioLength)
     }
 
     setTimeout(() => {
@@ -82,10 +82,10 @@ function onUserPress(elBtn) {
 
     // is it the last note in the sequence?
     if (gUserCurrNoteIdx === gNoteSeq.length - 1) {
-        
+
         gIsUserTurn = false
 
-        setTimeout(()=>{
+        setTimeout(() => {
             gGameScore++
             document.querySelector('.score').innerText = gGameScore
             // user broke his record
@@ -112,7 +112,7 @@ function onUserPress(elBtn) {
 }
 
 function playNote(elBtn, note) {
-    const audioNote = gAudioNotes[note-1]
+    const audioNote = gAudioNotes[note - 1]
     audioNote.pause()
     audioNote.currentTime = 0
     audioNote.play()
@@ -139,5 +139,3 @@ function flashMsg(msg) {
         elMsg.classList.remove('show')
     }, 1500)
 }
-
-
