@@ -41,13 +41,10 @@ button {
     width: 180px;
     height: 180px;
     border-radius: 50%;
-    cursor: not-allowed;
-    pointer-events: none;
 }
 
-.game-container.user-turn>button {
+.game-container>button {
     cursor: pointer;
-    pointer-events: unset;
 }
 
 .game-container>button:nth-child(1) {

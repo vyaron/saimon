@@ -32,7 +32,6 @@ function onInit() {
 function onStart() {
     gGameScore = 0
     gIsUserTurn = false
-    document.querySelector(`.game-container`).classList.remove('user-turn')
     document.querySelector('.score').innerText = gGameScore
     document.querySelector('.top-score').innerText = gTopScore
     document.querySelector('.modal img').src = `img/go${getRandomIntInclusive(1, 6)}.gif`
@@ -58,7 +57,6 @@ function playComputer() {
 }
 
 function setUserTurn() {
-    document.querySelector(`.game-container`).classList.add('user-turn')
     gIsUserTurn = true
     gUserCurrNoteIdx = 0
     flashMsg('תּוֹרֵךְ')
@@ -70,7 +68,6 @@ function onUserPress(elBtn) {
 
     // user lost:
     if (elBtn.innerText !== note) {
-        document.querySelector(`.game-container`).classList.remove('user-turn')
         flashMsg('אוּפְּסִי...')
         breakScreen()
         setTimeout(() => {
@@ -87,7 +84,6 @@ function onUserPress(elBtn) {
     if (gUserCurrNoteIdx === gNoteSeq.length - 1) {
         
         gIsUserTurn = false
-        document.querySelector(`.game-container`).classList.remove('user-turn')
 
         setTimeout(()=>{
             gGameScore++
